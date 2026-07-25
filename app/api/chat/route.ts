@@ -3,6 +3,7 @@ import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/prisma'
 import { chatWithAI } from '@/lib/gemini'
 
+
 export async function POST(req: NextRequest) {
   try {
     const { userId: clerkId } = await auth()
@@ -40,10 +41,23 @@ PATIENT PROFILE:
 - Chronic Diseases: ${emergency?.chronicDiseases?.join(', ') || 'None recorded'}
 
 CURRENT MEDICATIONS (${medicines.length}):
-${medicines.map(m => `- ${m.name} ${m.dosage} ${m.frequency}${m.purpose ? ` (for ${m.purpose})` : ''}`).join('\n') || 'None recorded'}
+${medicines
+  .map((m: {
+    name: string;
+    dosage: string;
+    frequency: string;
+    purpose: string | null;
+  }) => `- ${m.name} ${m.dosage} ${m.frequency}${m.purpose ? ` (for ${m.purpose})` : ''}`)
+  .join('\n') || 'None recorded'}
 
 RECENT MEDICAL REPORTS (${records.length}):
-${records.map(r => `
+${records.map((r: {
+  title: string;
+  type: string;
+  aiSummary: string | null;
+  abnormalFindings: string[];
+  reportDate: Date;
+}) => `
 [${r.type} – ${new Date(r.reportDate).toLocaleDateString()}]
 Report: ${r.title}
 Summary: ${r.aiSummary || 'Not analyzed yet'}
