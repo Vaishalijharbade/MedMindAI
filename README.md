@@ -133,7 +133,7 @@ public/
 
 ---
 
-# 🚀 Getting Started
+# 🚀Getting Started
 
 ### Clone the repository
 
