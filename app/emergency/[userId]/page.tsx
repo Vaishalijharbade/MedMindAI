@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Activity, AlertTriangle, Pill, Phone, Heart, Droplets } from 'lucide-react'
 import type { Metadata } from 'next'
+import { prisma } from '@/lib/prisma'
 
 export const metadata: Metadata = {
   title: 'Emergency Medical Information – MedMind AI',
@@ -8,22 +9,29 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 }
 
-async function getEmergencyProfile(userId: string) {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/emergency/public/${userId}`, {
-      cache: 'no-store',
-    })
-    if (!res.ok) return null
-    return res.json()
-  } catch { return null }
-}
+
+
 
 export default async function PublicEmergencyPage({ params }: { params: Promise<{ userId: string }> }) {
   const { userId } = await params
-  const data = await getEmergencyProfile(userId)
-  if (!data) notFound()
 
-  const { name, profile } = data
+const user = await prisma.user.findUnique({
+  where: {
+    id: userId,
+  },
+  include: {
+    emergencyProfile: true,
+  },
+})
+
+if (!user || !user.emergencyProfile) {
+  notFound()
+}
+
+const name =
+  `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || 'Patient'
+
+const profile = user.emergencyProfile
   const contacts: any[] = profile.emergencyContacts || []
 
   return (
