@@ -1,0 +1,164 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  medicalRecords   MedicalRecord[]
+  medicines        Medicine[]
+  emergencyProfile EmergencyProfile?
+  chatMessages     ChatMessage[]
+  healthMetrics    HealthMetric[]
+
+  @@map("users")
+}
+
+model MedicalRecord {
+  id            String       @id @default(cuid())
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title         String
+  type          RecordType
+  fileUrl       String
+  publicId      String       // Cloudinary public ID
+  extractedText String?      @db.Text
+  aiSummary     String?      @db.Text
+  abnormalFindings  String[] @default([])
+  suggestions       String[] @default([])
+  followUps         String[] @default([])
+  isAnalyzed    Boolean      @default(false)
+  reportDate    DateTime     @default(now())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  healthMetrics HealthMetric[]
+
+  @@map("medical_records")
+}
+
+enum RecordType {
+  PRESCRIPTION
+  BLOOD_REPORT
+  XRAY
+  MRI
+  ECG
+  OTHER
+}
+
+model HealthMetric {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recordId       String?
+  record         MedicalRecord? @relation(fields: [recordId], references: [id], onDelete: SetNull)
+  metricType     MetricType
+  value          Float
+  unit           String
+  recordedAt     DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  @@map("health_metrics")
+}
+
+enum MetricType {
+  BLOOD_SUGAR
+  HEMOGLOBIN
+  CHOLESTEROL_TOTAL
+  CHOLESTEROL_HDL
+  CHOLESTEROL_LDL
+  BLOOD_PRESSURE_SYSTOLIC
+  BLOOD_PRESSURE_DIASTOLIC
+  HEART_RATE
+  BMI
+  WEIGHT
+  CREATININE
+  URIC_ACID
+  VITAMIN_D
+  VITAMIN_B12
+  THYROID_TSH
+  OTHER
+}
+
+model Medicine {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  dosage    String
+  frequency String   // e.g. "twice daily", "once at night"
+  purpose   String?
+  startDate DateTime @default(now())
+  endDate   DateTime?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reminders Reminder[]
+
+  @@map("medicines")
+}
+
+model Reminder {
+  id         String   @id @default(cuid())
+  medicineId String
+  medicine   Medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  time       String   // "08:00", "14:00", "20:00"
+  days       String[] @default([]) // ["MON","TUE","WED","THU","FRI","SAT","SUN"]
+  isTaken    Boolean  @default(false)
+  isMissed   Boolean  @default(false)
+  dueAt      DateTime
+  takenAt    DateTime?
+  createdAt  DateTime @default(now())
+
+  @@map("reminders")
+}
+
+model EmergencyProfile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bloodGroup       String
+  allergies        String[] @default([])
+  chronicDiseases  String[] @default([])
+  currentMeds      String[] @default([])
+  emergencyContacts Json    @default("[]")
+  // [{ name: string, phone: string, relation: string }]
+  doctorName       String?
+  doctorPhone      String?
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("emergency_profiles")
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      MessageRole
+  content   String      @db.Text
+  createdAt DateTime    @default(now())
+
+  @@map("chat_messages")
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
