@@ -177,15 +177,24 @@ npm run dev
 ---
 
 # 📸 Screenshots
-
-> *(Add screenshots before final submission.)*
-
 - Landing Page
+<img width="1917" height="872" alt="image" src="https://github.com/user-attachments/assets/7db86ef5-cdfe-4345-9c76-29b872f02731" />
+
 - Dashboard
+
+<img width="1917" height="877" alt="image" src="https://github.com/user-attachments/assets/e3ff977b-083a-41db-aebc-a48c86f27a15" />
+
 - Medical Report Upload
+<img width="1916" height="868" alt="image" src="https://github.com/user-attachments/assets/5445b504-b000-411f-b8eb-7c8ddd814c40" />
+
 - AI Report Analysis
+<img width="1118" height="858" alt="image" src="https://github.com/user-attachments/assets/3cb9a363-e67d-420d-8ad8-4528927e3d6e" />
+
 - AI Health Assistant
+
 - Emergency QR Health Card
+<img width="1917" height="862" alt="image" src="https://github.com/user-attachments/assets/8f52ed2f-cb71-49e4-a087-5e4b7e01dee3" />
+
 
 ---
 
@@ -206,12 +215,12 @@ Future enhancements include:
 
 # 👥 Team
 
-| Name | Role |
-|------|------|
-| Vaishali Jharbade | Full Stack Developer |
-| Member 2 | AI Integration |
-| Member 3 | Backend Development |
-| Member 4 | UI/UX & Testing |
+| Name | Role | Github |
+|------|------| -------|
+| Vaishali Jharbade | Full Stack Developer | github : https://github.com/Vaishalijharbade|
+| Devesh Gupta | AI Integration | github : https://github.com/devexxxx|
+| Anant Neekhra | Backend Development | github : https://github.com/Anant-Neekhra|
+
 
 ---
 
