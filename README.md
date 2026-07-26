@@ -1,7 +1,7 @@
 # 🏥 MedMind AI
 
 > **Your AI-powered digital health companion for managing medical records, understanding reports, and accessing critical health information anytime, anywhere.**
-
+🌐 **Live Demo:** https://medmind-ai-coral.vercel.app
 ---
 
 ## 📖 The Problem
