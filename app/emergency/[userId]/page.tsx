@@ -41,8 +41,20 @@ export default async function PublicEmergencyPage({
   const profile = user.emergencyProfile
 
   const contacts: EmergencyContact[] = Array.isArray(profile.emergencyContacts)
-    ? (profile.emergencyContacts as EmergencyContact[])
-    : []
+  ? (profile.emergencyContacts as EmergencyContact[])
+  : []
+
+const allergies: string[] = Array.isArray(profile.allergies)
+  ? (profile.allergies as string[])
+  : []
+
+const chronicDiseases: string[] = Array.isArray(profile.chronicDiseases)
+  ? (profile.chronicDiseases as string[])
+  : []
+
+const currentMeds: string[] = Array.isArray(profile.currentMeds)
+  ? (profile.currentMeds as string[])
+  : []
 
   return (
     <div
@@ -91,7 +103,7 @@ export default async function PublicEmergencyPage({
         </div>
 
         {/* Allergies */}
-        {profile.allergies?.length > 0 && (
+        {allergies.length > 0 && (
           <div
             className="glass-card p-4 mb-4"
             style={{ borderColor: 'rgba(239,68,68,0.2)' }}
@@ -102,7 +114,7 @@ export default async function PublicEmergencyPage({
             </h2>
 
             <div className="flex flex-wrap gap-2">
-              {profile.allergies.map((a: string, i: number) => (
+              {allergies.map((a, i) => (
                 <span
                   key={i}
                   className="px-2.5 py-1 rounded-lg text-sm font-medium text-rose-200 bg-rose-500/20 border border-rose-500/30"
@@ -115,14 +127,14 @@ export default async function PublicEmergencyPage({
         )}
 
         {/* Chronic Diseases */}
-        {profile.chronicDiseases?.length > 0 && (
+        {chronicDiseases.length > 0 && (
           <div className="glass-card p-4 mb-4">
             <h2 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3">
               🏥 Medical Conditions
             </h2>
 
             <div className="flex flex-wrap gap-2">
-              {profile.chronicDiseases.map((d: string, i: number) => (
+              {chronicDiseases.map((d, i) => (
                 <span
                   key={i}
                   className="px-2.5 py-1 rounded-lg text-sm text-amber-200 bg-amber-500/20 border border-amber-500/30"
@@ -135,7 +147,7 @@ export default async function PublicEmergencyPage({
         )}
 
         {/* Current Medications */}
-        {profile.currentMeds?.length > 0 && (
+       {currentMeds.length > 0 && (
           <div className="glass-card p-4 mb-4">
             <h2 className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-3 flex items-center gap-2">
               <Pill size={12} />
@@ -143,7 +155,7 @@ export default async function PublicEmergencyPage({
             </h2>
 
             <ul className="space-y-1">
-              {profile.currentMeds.map((m: string, i: number) => (
+              {currentMeds.map((m, i) => (
                 <li
                   key={i}
                   className="text-sm text-slate-300 flex items-center gap-2"
