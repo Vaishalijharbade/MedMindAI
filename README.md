@@ -191,6 +191,8 @@ npm run dev
 <img width="1118" height="858" alt="image" src="https://github.com/user-attachments/assets/3cb9a363-e67d-420d-8ad8-4528927e3d6e" />
 
 - AI Health Assistant
+<img width="1681" height="935" alt="image" src="https://github.com/user-attachments/assets/3db202e8-e9a3-42df-ad25-4e4d3412a2dc" />
+
 
 - Emergency QR Health Card
 <img width="1917" height="862" alt="image" src="https://github.com/user-attachments/assets/8f52ed2f-cb71-49e4-a087-5e4b7e01dee3" />
